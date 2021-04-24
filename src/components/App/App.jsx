@@ -1,6 +1,6 @@
 import React from 'react';
-import FeedbackSurvey from '../FeedbackSurvey';
-import FeedbackStatistics from '../FeedbackStatistics';
+import FeedbackOptions from '../FeedbackOptions';
+import Statistics from '../Statistics';
 
 class App extends React.Component {
   state = {
@@ -17,14 +17,40 @@ class App extends React.Component {
     }));
   };
 
+  countTotalFeedbacks = options => {
+    const totalFeedbacks = Object.values(options).reduce(
+      (total, option) => total + option,
+    );
+
+    return totalFeedbacks;
+  };
+
+  countPositiveFeedbackPercentage = options => {
+    const positiveFeedbacks = options.good;
+    const totalFeedbacks = this.countTotalFeedbacks(options);
+
+    const positiveFeedbackPercentage = totalFeedbacks
+      ? (positiveFeedbacks / totalFeedbacks) * 100
+      : 0;
+
+    return Math.round(positiveFeedbackPercentage);
+  };
+
   render() {
+    const { good, neutral, bad } = this.state;
     return (
       <>
-        <FeedbackSurvey
+        <FeedbackOptions
           options={Object.keys(this.state)}
-          onClick={this.handleFeedbackBtnClick}
+          onLeaveFeedback={this.handleFeedbackBtnClick}
         />
-        <FeedbackStatistics options={this.state} />
+        <Statistics
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          total={this.countTotalFeedbacks(this.state)}
+          positivePercentage={this.countPositiveFeedbackPercentage(this.state)}
+        />
       </>
     );
   }
