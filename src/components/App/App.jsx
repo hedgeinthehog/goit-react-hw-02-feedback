@@ -24,7 +24,7 @@ class App extends React.Component {
           options={Object.keys(this.state)}
           onClick={this.handleFeedbackBtnClick}
         />
-        <FeedbackStatistics options={Object.entries(this.state)} />
+        <FeedbackStatistics options={this.state} />
       </>
     );
   }
