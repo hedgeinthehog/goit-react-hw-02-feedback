@@ -48,15 +48,19 @@ class App extends React.Component {
           />
         </Section>
         <Section title="statistics">
-          <Statistics
-            good={good}
-            neutral={neutral}
-            bad={bad}
-            total={this.countTotalFeedbacks(this.state)}
-            positivePercentage={this.countPositiveFeedbackPercentage(
-              this.state,
-            )}
-          />
+          {this.countTotalFeedbacks(this.state) ? (
+            <Statistics
+              good={good}
+              neutral={neutral}
+              bad={bad}
+              total={this.countTotalFeedbacks(this.state)}
+              positivePercentage={this.countPositiveFeedbackPercentage(
+                this.state,
+              )}
+            />
+          ) : (
+            'No feedbacks given'
+          )}
         </Section>
       </>
     );
